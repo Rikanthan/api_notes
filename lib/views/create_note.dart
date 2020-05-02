@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/models/note.dart';
+import 'package:flutter_api/models/note_insert.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_api/models/note_services.dart';
 
@@ -26,22 +27,23 @@ class _NoteModifyState extends State<NoteModify> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _isLoading=true;
-    });
-    notesService.getNote(widget.noteId)
-    .then((response){
+    if(isEditing==true) {
       setState(() {
-        _isLoading=false;
+        _isLoading = true;
       });
-      if(response.error==true)
-        {
-          errorMessage=response.errormessage ?? 'Something went wrong';
+      notesService.getNote(widget.noteId)
+          .then((response) {
+        setState(() {
+          _isLoading = false;
+        });
+        if (response.error == true) {
+          errorMessage = response.errormessage ?? 'Something went wrong';
         }
-      note=response.data;
-      _titleController.text=note.noteTitle;
-      _contentController.text=note.noteContent;
-    });
+        note = response.data;
+        _titleController.text = note.noteTitle;
+        _contentController.text = note.noteContent;
+      });
+    }
 
   }
 
@@ -79,7 +81,45 @@ class _NoteModifyState extends State<NoteModify> {
                 ),
                   ),
                 color:Theme.of(context).primaryColor,
-                onPressed: (){
+                onPressed: () async{
+                  if(isEditing==true)
+                    {
+
+                    }
+                  else{//0773846880
+                    final note=NoteInsert(
+                      noteTitle: _titleController.text,
+                      noteContent:_contentController.text,
+                    );
+                    final result=await notesService.createnote(note);
+                    final text=result.error==true ? (result.errormessage ?? 'Something went wrong'):'Your note is create';
+
+                    final title ='Done';
+
+
+                    showDialog(context: context,
+                    builder: (_) =>
+                        AlertDialog(
+                          title: Text(title),
+                          content:Text(text),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('ok'),
+                              onPressed: (){
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        )
+
+                    ).then((data)
+                    {
+                      if(result.data)
+                        {
+                          Navigator.of(context).pop();
+                        }
+                    });
+                  }
 
                 },
               ),

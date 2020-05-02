@@ -49,7 +49,10 @@ class _NoteListState extends State<NoteList> {
         (
         onPressed: ()
         {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_)=>NoteModify()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_)=>NoteModify()))
+          .then((_){
+            _fetchNotes();
+          });
         },
         child: Icon(Icons.add),
       ),
@@ -58,7 +61,7 @@ class _NoteListState extends State<NoteList> {
         {
           if(_isLoading)
             {
-              return CircularProgressIndicator();
+              return (Center(child:CircularProgressIndicator() ,));
             }
           if(_apiResponse.error ==true)
             {
