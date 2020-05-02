@@ -64,7 +64,7 @@ class NotesService
 
 
     ).catchError((_) =>
-        ApiResponse<List<bool>>(
+        ApiResponse<bool>(
             error: true, errormessage: 'something went wrong'));
   }
 

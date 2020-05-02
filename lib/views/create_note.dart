@@ -86,7 +86,7 @@ class _NoteModifyState extends State<NoteModify> {
                     {
 
                     }
-                  else{//0773846880
+                  else{
                     final note=NoteInsert(
                       noteTitle: _titleController.text,
                       noteContent:_contentController.text,
@@ -114,7 +114,7 @@ class _NoteModifyState extends State<NoteModify> {
 
                     ).then((data)
                     {
-                      if(result.data)
+                      if(result.data==true)
                         {
                           Navigator.of(context).pop();
                         }
