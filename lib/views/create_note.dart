@@ -84,6 +84,38 @@ class _NoteModifyState extends State<NoteModify> {
                 onPressed: () async{
                   if(isEditing==true)
                     {
+                      final note=NoteInsert(
+                        noteTitle: _titleController.text,
+                        noteContent:_contentController.text,
+                      );
+                      final result=await notesService.updatenote(note,widget.noteId);
+                      final text=result.error==true ? (result.errormessage ?? 'Something went wrong'):'Your note is updated';
+
+                      final title ='Done';
+
+
+                      showDialog(context: context,
+                          builder: (_) =>
+                              AlertDialog(
+                                title: Text(title),
+                                content:Text(text),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text('ok'),
+                                    onPressed: (){
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              )
+
+                      ).then((data)
+                      {
+                        if(result.data==true)
+                        {
+                          Navigator.of(context).pop();
+                        }
+                      });
 
                     }
                   else{

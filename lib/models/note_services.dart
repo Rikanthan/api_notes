@@ -69,6 +69,23 @@ class NotesService
             error: true, errormessage: 'something went wrong'));
   }
 
+  Future <ApiResponse<bool>> updatenote(NoteInsert item,String noteId) {
+    return http.put(API + '/notes/'+noteId, headers: headers,body:json.encode(item.toJson()) ).then((data) {
+      if (data.statusCode == 204) {
+
+        return  ApiResponse<bool>(data: true);
+      }
+      return ApiResponse<bool>(
+          error: true, errormessage: 'something went wrong');
+    }
+
+
+    ).catchError((_) =>
+        ApiResponse<bool>(
+            error: true, errormessage: 'something went wrong'));
+  }
+
+
 
 
 
