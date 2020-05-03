@@ -9,7 +9,8 @@ import 'note_insert.dart';
 class NotesService
 {
   static const API='http://api.notes.programmingaddict.com';
-  static const headers={'apiKey':'14b8f4d3-9e05-4121-9e62-1c4c89503afa','ContentType':'application/json'};
+  static const headers={'apiKey':'14b8f4d3-9e05-4121-9e62-1c4c89503afa',
+    'Content-Type':'application/json'};
 
 
 
